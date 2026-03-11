@@ -5,11 +5,13 @@ import com.example.stockexchangelld.models.OrderStatus;
 import com.example.stockexchangelld.models.OrderType;
 import com.example.stockexchangelld.models.Trade;
 import com.example.stockexchangelld.services.strategies.OrderMatchingStrategy;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+@Component
 public class FIFOMatchingStrategy implements OrderMatchingStrategy {
 
     @Override

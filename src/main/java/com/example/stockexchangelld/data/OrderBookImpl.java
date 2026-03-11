@@ -1,7 +1,9 @@
 package com.example.stockexchangelld.data;
 
+import com.example.stockexchangelld.exceptions.InvalidOrderException;
 import com.example.stockexchangelld.models.Order;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 @Slf4j
+@Component
 public class OrderBookImpl implements OrderBook{
     Map<String, List<Order>> orderBook = new ConcurrentHashMap<>();
     Map<String, ReadWriteLock> symbolLocks = new ConcurrentHashMap<>();
@@ -72,15 +75,20 @@ public class OrderBookImpl implements OrderBook{
         }
     }
     public List<Order> getOrders(String stockSymbol){
+        log.info("Getting order book for symbol: {}", stockSymbol);
         ReadWriteLock lock = getOrCreateLock(stockSymbol);
         lock.readLock().lock();
         try{
+            log.info("Order book size: {}", orderBook);
             return orderBook.getOrDefault(stockSymbol, new ArrayList<>());
         }finally {
             lock.readLock().unlock();
         }
     }
-    public Optional<Order> getOrderById(String orderId){
+    public Optional<Order> getOrderById(String orderId) throws InvalidOrderException {
+        if(orderId == null){
+            throw new InvalidOrderException("Order ID cannot be null");
+        }
         for(Map.Entry<String, List<Order>> entry : orderBook.entrySet()){
             String stockSymbol = entry.getKey();
             ReadWriteLock lock = getOrCreateLock(stockSymbol);
@@ -92,7 +100,8 @@ public class OrderBookImpl implements OrderBook{
                         return Optional.of(order);
                     }
                 }
-            } finally {
+            }
+            finally {
                 lock.readLock().unlock();
             }
         }

@@ -1,5 +1,6 @@
 package com.example.stockexchangelld.dto;
 
+import com.example.stockexchangelld.models.OrderType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,7 @@ public class orderRequestDTO {
     private String userId;
 
     @NotBlank(message = "Order Type is required")
-    private String orderType;
+    private OrderType orderType;
 
     @NotBlank(message = "Stock Symbol is required")
     private String stockSymbol;

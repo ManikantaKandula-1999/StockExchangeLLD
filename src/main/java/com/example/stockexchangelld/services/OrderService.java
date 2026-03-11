@@ -1,12 +1,14 @@
 package com.example.stockexchangelld.services;
 
 import com.example.stockexchangelld.dto.orderRequestDTO;
+import com.example.stockexchangelld.exceptions.UserNotFoundException;
 import com.example.stockexchangelld.models.Order;
-import org.springframework.stereotype.Service;
 
-@Service
+import java.util.List;
+
+
 public interface OrderService {
-    Order placeOrder(orderRequestDTO orderRequestDTO);
+    Order placeOrder(orderRequestDTO orderRequestDTO) throws UserNotFoundException;
 
-    Order getOrderBook(String symbol);
+    List<Order> getOrderBook(String symbol);
 }
