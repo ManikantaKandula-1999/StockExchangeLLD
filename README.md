@@ -1,7 +1,3 @@
-Here is your content **cleanly formatted and structured** for readability (without changing the meaning):
-
----
-
 # In-Memory Trading System (Stock Exchange Simulation)
 
 Design and implement an **efficient in-memory trading system** similar to a stock exchange, where registered users can **place, execute, and cancel trades**. The system should demonstrate **synchronization and concurrency** in a **multi-threaded environment**.
